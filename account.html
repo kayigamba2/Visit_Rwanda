@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Login & Register</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: #333;
+    }
+    .container {
+      width: 350px;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      background-color: white;
+      text-align: center;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .link {
+      margin-top: 10px;
+      color: #0066cc;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    .message {
+      margin-top: 10px;
+      text-align: center;
+      color: red;
+    }
+    #register-section {
+      display: none;
+    }
+
+    a{
+      text-decoration: none;
+      font-size: 24px;
+      color: white;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container" id="login-section">
+  <h2>Login</h2>
+  <input type="text" id="login-username" placeholder="Enter Username" required />
+  <input type="password" id="login-password" placeholder="Enter Password" required />
+  <button onclick="login()"><a href="trip.html"> Login</a></button>
+  <div class="link" onclick="showRegister()">Don't have an account? Register</div>
+  <div class="link" onclick="forgotPassword()">Forgot Password?</div>
+  <div class="message" id="login-message"></div>
+</div>
+
+<div class="container" id="register-section">
+  <h2>Register</h2>
+  <input type="text" id="register-username" placeholder="Choose Username" required />
+  <input type="password" id="register-password" placeholder="Choose Password" required />
+  <button onclick="register()">Register</button>
+  <div class="link" onclick="showLogin()">Already have an account? Login</div>
+  <div class="message" id="register-message"></div>
+</div>
+
+<script>
+  // Store users in an object (emulates a basic user database)
+  const users = {};
+
+  function login() {
+    const username = document.getElementById("login-username").value;
+    const password = document.getElementById("login-password").value;
+    const message = document.getElementById("login-message");
+
+    if (users[username] && users[username] === password) {
+      message.style.color = "green";
+      message.textContent = "Login successful!";
+    } else {
+      message.style.color = "red";
+      message.textContent = "Invalid username or password.";
+    }
+  }
+
+  function register() {
+    const username = document.getElementById("register-username").value;
+    const password = document.getElementById("register-password").value;
+    const message = document.getElementById("register-message");
+
+    if (username in users) {
+      message.style.color = "red";
+      message.textContent = "Username already exists. Please choose another.";
+    } else {
+      users[username] = password;
+      message.style.color = "green";
+      message.textContent = "Registration successful! You can now log in.";
+    }
+  }
+
+  function forgotPassword() {
+    const username = prompt("Enter your username:");
+    if (users[username]) {
+      alert(`Your password is: ${users[username]}`);
+    } else {
+      alert("Username not found.");
+    }
+  }
+
+  function showRegister() {
+    document.getElementById("login-section").style.display = "none";
+    document.getElementById("register-section").style.display = "block";
+  }
+
+  function showLogin() {
+    document.getElementById("register-section").style.display = "none";
+    document.getElementById("login-section").style.display = "block";
+  }
+</script>
+</body>
+</html>
